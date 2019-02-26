@@ -1,0 +1,18 @@
+import java.util.*;
+ 
+public class Main {
+	
+	public static void main(String[] args) {
+		char c[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int m = sc.nextInt();
+		for(int i=0;i<n;i++){
+			for(int j=0;j<m;j++){
+				int x = Math.abs(i-j);
+				System.out.print(c[x]);
+			}
+			System.out.println();
+		}
+	}
+}
