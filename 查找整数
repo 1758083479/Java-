@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+public class Main {
+ 
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		int  a[]=new int[1000];
+		int n=0,cha;
+		int i;
+		int xiabiao = -1;
+		n = input.nextInt();
+		for(i=0;i<n;i++){
+			a[i]=input.nextInt();
+		}
+		cha=input.nextInt();
+		for(i=0;i<n;i++){
+			if(a[i]==cha){
+				xiabiao=i+1;
+				break;
+				
+			}
+		}
+		System.out.println(xiabiao);
+	}
+ 
+}
