@@ -1,0 +1,52 @@
+第一种：
+import java.util.Scanner;
+
+public class Main {
+
+public static void main(String[] args) {
+
+	Scanner sc = new Scanner(System.in);
+		int n= sc.nextInt();
+		int [] a = new int[n];
+		for(int i=0;i<n;i++){
+			a[i]=sc.nextInt();
+			for(int j=i;j>0;j--){
+				if(a[j]<a[j-1]){
+					int temp;
+					temp = a[j-1];
+					a[j-1]=a[j];
+					a[j]=temp;
+				}else{
+					break;
+				}
+			}
+		}
+		
+		for(int i=0;i<n;i++){
+			System.out.print(a[i]+" ");
+		}
+
+	}
+
+}
+第二种：
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+public class Main {
+public static void main (String args[])throws Exception{
+    BufferedReader buf=new BufferedReader(new InputStreamReader(System.in));
+    int n=Integer.parseInt(buf.readLine());
+    String s=buf.readLine();
+    String s1[]=s.split(" ");
+    StringBuffer sb=new StringBuffer();
+    int a[]=new int[n];
+    for(int i=0;i<n;i++){
+        a[i]=Integer.parseInt(s1[i]);
+    }
+    java.util.Arrays.sort(a);
+    for(int j=0;j<n;j++)
+    sb.append(a[j]).append(" ");
+    System.out.println(sb);
+}
+}
