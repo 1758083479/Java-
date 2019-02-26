@@ -1,0 +1,20 @@
+import java.util.Scanner;
+
+public class Main {
+		public static void main(String[] args) {
+			double PI=3.14159265358979323;
+			Scanner input = new Scanner(System.in);
+			int r =input.nextInt();
+			if(r<1||r>10000)
+			{
+				System.out.println("输入错误");
+			}else{
+				double s =PI*r*r;
+				System.out.println(String.format("%.7f", s));
+				
+			}
+			 
+		
+		}
+
+}
