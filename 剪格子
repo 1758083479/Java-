@@ -1,0 +1,168 @@
+import java.util.Scanner;
+
+public class Main {
+    static int n, m;
+    static int[][] map;// 存输入的数组
+    static int[][] vis;// 标志数组，检测当前位置是否走过
+    static int[][] point = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };// 相当于走迷宫，上下左右
+    static int total = 0;
+    static int min = Integer.MAX_VALUE; // 保存每一种可行方案的最小值
+    static int count = 0;// 每一种可行方案的格子数
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        m = s.nextInt();
+        n = s.nextInt();
+        map = new int[n][m];
+        vis = new int[n][m];
+        for (int i = 0; i < n; ++i)
+            for (int j = 0; j < m; ++j) {
+                map[i][j] = s.nextInt();
+                total += map[i][j];
+            }
+        int si = total / 2;
+        if (total % 2 != 0) // 不是偶数，直接输出
+            System.out.println("0");
+        else if (map[0][0] == si)// 看是否直接是第一个数
+            System.out.println("1");
+        else {
+            vis[0][0] = 1;
+            dfs(0, 0, si - map[0][0]); // dfs(i,j,value)表示从左上角第一个点出发进行可行性深搜，
+                                        // 深搜结束表明，是否找到了可行方案的最小方格数
+            if (min < Integer.MAX_VALUE) // 看min是否有过更新
+                System.out.println(min);
+            else
+                System.out.println("0");
+        }
+    }
+
+    public static void dfs(int x, int y, int si) {
+        if (si == 0) {
+            count++;
+            if (count < min)
+                min = count;
+            return;
+        }
+        for (int i = 0; i < 4; ++i) {
+            int tx = x + point[i][0];
+            int ty = y + point[i][1];
+            if (tx >= 0 && tx < n && ty >= 0 && ty < m) { // 越界判断
+                if (vis[tx][ty] == 0 && si - map[tx][ty] >= 0) { // 能够向下深搜的前提条件
+                    vis[tx][ty] = 1;
+                    count++;
+                    dfs(tx, ty, si - map[tx][ty]);
+                    // 走到这里，说明可以搜到了一种可行的方案,(return之后到的这里)
+                    // 也可能没有搜到一种可行的方案(从循环中跳出)
+                    // 不管哪种情况，都要进行回溯还原
+                    count--;
+                    vis[tx][ty] = 0;
+                }
+            }
+        }
+    }
+}
+
+第二
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+ 
+public class Main{
+ 
+	public static int[] a[]=new int[12][12];
+	public static boolean[] vis[] =new boolean[12][12];
+	public static boolean[] visok[] = new boolean[12][12];
+	public static int n,m,sum,ans,sp;
+	public static int dx[] = {0,-1,0,1};
+	public static int dy[] = {-1,0,1,0};
+	
+	public static boolean ok(int x,int y,int step){
+		if(step==sp){
+			return true;
+		}
+		for(int i=0;i<4;i++){
+			int xx = x+dx[i];
+			int yy = y+dy[i];
+			if(xx<0 || yy<0 || xx>=n|| yy>=m || vis[xx][yy] || visok[xx][yy] ){
+				continue;
+			}
+			visok[xx][yy] = true;
+			sp++;
+			if(ok(xx,yy,step)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void DFS(int x,int y,int cur,int cnt){
+		if(cur==sum){
+			boolean f = false;
+			int sx=n,sy=m;
+			for(int i=0;i<n;i++){
+				for(int j=0;j<m;j++ ){
+					if(!vis[i][j]){
+						f=true;
+						sx=i;
+						sy=j;
+						break;
+					}
+				}
+				if(f){
+					break;
+				}
+			}
+			for(int h=0;h<12;h++){
+				for(int k=0;k<12;k++){
+					visok[h][k] = false;;
+				}
+			}
+			sp=1;
+			if(ok(sx,sy,n*m-cnt)){
+				ans = Math.min(ans,cnt);
+			}
+			return;
+		}
+		for(int i=0;i<4;i++){
+			int xx = x+dx[i];
+			int yy = y+dy[i];
+			if(xx<0 || yy<0 || xx>=n|| yy>=m || vis[xx][yy] || cur+a[xx][yy]>sum){
+				continue;
+			}
+			vis[xx][yy] = true;
+			DFS(xx,yy,cur+a[xx][yy],cnt+1);
+			vis[xx][yy] = false;
+		}
+	}
+	
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		m = sc.nextInt();
+		n = sc.nextInt();
+		for(int i=0;i<n;i++){
+			for(int j=0;j<m;j++){
+				a[i][j] = sc.nextInt();
+				sum += a[i][j]; 
+			}
+		}
+		if(sum % 2!=0){
+			System.out.println("0");
+			return;
+		}
+		sum = sum/2;
+		ans=Integer.MAX_VALUE;
+		for(int i=0;i<12;i++){
+			for(int j=0;j<12;j++){
+				vis[i][j] = false;
+			}
+		}
+		vis[0][0]=true;
+		DFS(0,0,a[0][0],1);
+		if(ans==Integer.MAX_VALUE){
+			System.out.println("0");
+		}else{
+			System.out.println(ans);
+		}
+	}
+			
+}
